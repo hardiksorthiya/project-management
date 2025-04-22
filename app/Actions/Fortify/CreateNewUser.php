@@ -37,6 +37,9 @@ class CreateNewUser implements CreatesNewUsers
                 $this->createTeam($user);
             });
         });
+        if (User::count() === 1) {
+            $user->assignRole('admin');
+        } 
     }
 
     /**

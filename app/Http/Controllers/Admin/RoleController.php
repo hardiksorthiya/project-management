@@ -15,7 +15,8 @@ class RoleController extends Controller
     public function index()
     {
         // Fetch all roles and permissions
-        $roles = Role::all();
+        // $roles = Role::all();
+        $roles = Role::where('name', '!=', 'admin')->get();
         $permissions = Permission::all()->groupBy('group_name');
 
         // Return the view with roles and permissions

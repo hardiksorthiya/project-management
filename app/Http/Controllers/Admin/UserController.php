@@ -60,6 +60,11 @@ class UserController extends Controller
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
+        if (User::count() === 1) {
+            $user->assignRole('admin');
+        } else {
+            $user->assignRole($request->role); // From dropdown
+        }
         $user->syncRoles([$request->role]);
 
         return redirect()->route('users.index')->with('success', 'User created successfully.');
