@@ -4,11 +4,13 @@ namespace App\Actions\Fortify;
 
 use App\Models\Team;
 use App\Models\User;
+use Laravel\Jetstream\Jetstream;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
-use Laravel\Jetstream\Jetstream;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -37,9 +39,10 @@ class CreateNewUser implements CreatesNewUsers
                 $this->createTeam($user);
             });
         });
-        if (User::count() === 1) {
-            $user->assignRole('admin');
-        } 
+        $user->assignRole('admin'); // ✅ auto-assign admin
+
+        event(new Registered($user));
+        Auth::login($user);
     }
 
     /**

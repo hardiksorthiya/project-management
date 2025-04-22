@@ -49,11 +49,23 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                  <a href="./docs/layout.html" class="nav-link">
+                  <a href="{{ route('clients.index') }}" class="nav-link">
                       <i class="nav-icon bi bi-grip-horizontal"></i>
-                      <p>Project</p>
+                      <p>Client</p>
                   </a>
               </li>
+              <li class="nav-item">
+                <a href="{{ route('projects.index') }}" class="nav-link">
+                    <i class="nav-icon bi bi-grip-horizontal"></i>
+                    <p>Project</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('tasks.all') }}" class="nav-link">
+                    <i class="nav-icon bi bi-grip-horizontal"></i>
+                    <p>Task</p>
+                </a>
+            </li>
                 
             </ul>
             <!--end::Sidebar Menu-->
