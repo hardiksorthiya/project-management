@@ -35,7 +35,10 @@ class User extends Authenticatable
         'phone',
         'password',
     ];
-
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

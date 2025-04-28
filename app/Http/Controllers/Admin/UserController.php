@@ -15,16 +15,22 @@ class UserController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-         // Fetch all users
-         $users = User::with('roles')->get();
-       $roles = Role::all();
-       $permissions = Permission::all()->groupBy('group_name');
 
-        // Return the view with users
+    
+    {
+        if (auth()->user()->hasRole('admin')) {
+            // Admin sees all users
+            $users = User::with('roles')->get();
+        } else {
+            // Manager sees only his created users
+            $users = User::with('roles')->where('created_by', auth()->id())->get();
+        }
+    
+        $roles = Role::all();
+        $permissions = Permission::all()->groupBy('group_name');
+    
         return view('admin.users.index', compact('users', 'roles', 'permissions'));
     }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -59,9 +65,10 @@ class UserController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
+            'created_by' => auth()->id(), // 👈 This line is important
         ]);
         
-       
+        $user->assignRole('admin');
         $user->syncRoles([$request->role]);
 
         return redirect()->route('users.index')->with('success', 'User created successfully.');
@@ -108,6 +115,8 @@ class UserController extends Controller
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
+        $adminRole = Role::where('name', 'admin')->first();
+$adminRole->syncPermissions(Permission::all());
 
         $user->save();
 

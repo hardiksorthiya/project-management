@@ -34,18 +34,23 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
+                        
+                        @can('user.view')
                         <li class="nav-item">
                             <a href="{{ route('users.index') }}" class="nav-link">
                                 <i class="nav-icon bi bi-circle"></i>
                                 <p>Team List</p>
                             </a>
-                        </li>
+                        </li> 
+                        @endcan
+                        @can('role.view')
                         <li class="nav-item">
                             <a href="{{ route('roles.index') }}" class="nav-link">
                                 <i class="nav-icon bi bi-circle"></i>
                                 <p>Role</p>
                             </a>
                         </li>
+                        @endcan
                     </ul>
                 </li>
                 <li class="nav-item">

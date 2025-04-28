@@ -60,9 +60,11 @@
                                     <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
                                 </button>
                                 <button type="button" class="btn btn-tool">
-                                    <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary float-start">
-                                        Create User
-                                    </a>
+                                    @can('user.create')
+                                        <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary float-start">
+                                            Create User
+                                        </a>                                        
+                                    @endcan
                                 </button>
                             </div>
                         </div>
@@ -76,6 +78,7 @@
                                             <th>User Name</th>
                                             <th>Email</th>
                                             <th>Role</th>
+                                            <th>Created By</th>
                                             <th>Phone No.</th>
                                             <th>Action</th>
                                         </tr>
@@ -87,16 +90,32 @@
                                                 <td>{{ $user->name }}</td>
                                                 <td>{{ $user->email }}</td>
                                                 <td><span class="badge text-bg-success"> 
-                                                @foreach ($user->getRoleNames() as $role)
-                                                    {{ $role }}
-                                                @endforeach    
+                                                    @if($user->hasRole('admin'))
+    <span class="badge bg-success">Admin</span>
+@else
+@foreach ($user->getRoleNames() as $role)
+{{ $role }}
+@endforeach    
+@endif
+                                               
                                                 </span></td>
+                                                <td>
+                                                    @if ($user->creator)
+                                                    {{ $user->creator->name }}
+                                                @else
+                                                    Admin
+                                                @endif
+                                                </td>
                                                 <td>{{ $user->phone }}</td>
                                                 <td>
+                                                    @can('user.update')
                                                   <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                                    @endcan
+                                                    @can('user.delete')
                                                   <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $user->id }}">
                                                     Delete
                                                 </button>
+                                                @endcan
                                                 <div class="modal fade" id="deleteModal{{ $user->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $user->id }}" aria-hidden="true">
                                                   <div class="modal-dialog modal-dialog-centered">
                                                       <div class="modal-content">
