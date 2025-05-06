@@ -39,6 +39,11 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">List of All Tasks</h3>
+                            <div class="card-tools">
+                                <a href="{{ route('tasks.createUnified') }}"
+                                    class="btn btn-sm btn-primary float-start">Add Task</a>
+
+                            </div>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">

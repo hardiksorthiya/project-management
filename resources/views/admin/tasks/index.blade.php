@@ -20,9 +20,11 @@
             <div class="row">
                 <div class="col-12">
                     @if (session('success') || session('error'))
-                        <div class="alert {{ session('success') ? 'alert-success' : 'alert-danger' }} alert-dismissible fade show mt-3" role="alert" id="session-alert">
+                        <div class="alert {{ session('success') ? 'alert-success' : 'alert-danger' }} alert-dismissible fade show mt-3"
+                            role="alert" id="session-alert">
                             {{ session('success') ?? session('error') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
                         </div>
                         <script>
                             setTimeout(() => {
@@ -40,8 +42,9 @@
                         <div class="card-header">
                             <h3 class="card-title">List of Tasks</h3>
                             <div class="card-tools">
-                                <a href="{{ route('projects.task.create', $project->id) }}" class="btn btn-sm btn-primary float-start">Add Task</a>
-                                
+                                <a href="{{ route('projects.task.create', $project->id) }}"
+                                    class="btn btn-sm btn-primary float-start">Add Task</a>
+
                             </div>
                         </div>
                         <div class="card-body p-0">
@@ -66,27 +69,43 @@
                                                 <td>{{ $task->assignee?->name ?? 'Unassigned' }}</td>
                                                 <td><span class="badge bg-info">{{ ucfirst($task->status) }}</span></td>
                                                 <td>{{ ucfirst($task->priority) }}</td>
-                                                <td>{{ $task->due_at ? \Carbon\Carbon::parse($task->due_at)->format('d M Y H:i') : '-' }}</td>
+                                                <td>{{ $task->due_at ? \Carbon\Carbon::parse($task->due_at)->format('d M Y H:i') : '-' }}
+                                                </td>
                                                 <td>
-                                                    <a href="{{ route('task.edit', $task->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                                                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $task->id }}">Delete</button>
+                                                    <a href="{{ route('task.edit', $task->id) }}"
+                                                        class="btn btn-sm btn-primary">Edit</a>
+                                                    <button type="button" class="btn btn-sm btn-danger"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#deleteModal{{ $task->id }}">Delete</button>
 
-                                                    <div class="modal fade" id="deleteModal{{ $task->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $task->id }}" aria-hidden="true">
+                                                    <div class="modal fade" id="deleteModal{{ $task->id }}"
+                                                        tabindex="-1"
+                                                        aria-labelledby="deleteModalLabel{{ $task->id }}"
+                                                        aria-hidden="true">
                                                         <div class="modal-dialog modal-dialog-centered">
                                                             <div class="modal-content">
                                                                 <div class="modal-header bg-danger text-white">
-                                                                    <h5 class="modal-title" id="deleteModalLabel{{ $task->id }}">Delete Confirmation</h5>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    <h5 class="modal-title"
+                                                                        id="deleteModalLabel{{ $task->id }}">Delete
+                                                                        Confirmation</h5>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    Are you sure you want to delete <strong>{{ $task->title }}</strong>?
+                                                                    Are you sure you want to delete
+                                                                    <strong>{{ $task->title }}</strong>?
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <form action="{{ route('task.destroy', $task->id) }}" method="POST">
+                                                                    <form
+                                                                        action="{{ route('task.destroy', $task->id) }}"
+                                                                        method="POST">
                                                                         @csrf
                                                                         @method('DELETE')
-                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                                        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                            data-bs-dismiss="modal">Cancel</button>
+                                                                        <button type="submit"
+                                                                            class="btn btn-danger">Yes, Delete</button>
                                                                     </form>
                                                                 </div>
                                                             </div>

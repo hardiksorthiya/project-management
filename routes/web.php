@@ -28,6 +28,8 @@ Route::resource('clients', ClientController::class);
 Route::resource('projects', ProjectController::class);
 Route::resource('projects.task', TaskController::class)->shallow(); // Shallow routing for tasks under projects
 Route::get('tasks', [TaskController::class, 'all'])->name('tasks.all'); // Get all tasks
+Route::get('tasks/create', [TaskController::class, 'createUnified'])->name('tasks.createUnified');
+Route::post('tasks/store', [TaskController::class, 'storeUnified'])->name('tasks.storeUnified');
 
 
 

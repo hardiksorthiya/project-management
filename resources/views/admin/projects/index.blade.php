@@ -74,7 +74,7 @@
                                                     @endforeach
                                                 </td>
                                                 <td>
-                                                    <a href="{{ route('projects.task.index', $project->id) }}">View Tasks</a>
+                                                    <a href="{{ route('projects.task.index', $project->id) }}" class="btn btn-sm btn-success">Tasks</a>
                                                     <a href="{{ route('projects.edit', $project->id) }}" class="btn btn-sm btn-warning">Edit</a>
                                                     <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $project->id }}">
                                                         Delete

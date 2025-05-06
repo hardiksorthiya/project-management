@@ -15,6 +15,43 @@ class TaskController extends Controller
         $tasks = $project->tasks()->with('assignee')->get(); // Make sure this line exists
         return view('admin.tasks.index', compact('project', 'tasks'));
     }
+    public function createUnified()
+{
+    $allProjects = Project::all();
+    $users = User::all();
+    $tasks = Task::whereNull('parent_id')->get();
+
+    return view('admin.tasks.create', [
+        'allProjects' => $allProjects,
+        'users' => $users,
+        'tasks' => $tasks,
+        'task' => null,
+        'project' => null // so the blade knows it’s coming from global create
+    ]);
+}
+
+public function storeUnified(Request $request)
+{
+    $request->validate([
+        'project_id' => 'required|exists:projects,id',
+        'title' => 'required|string|max:255',
+        'due_at' => 'required|date',
+    ]);
+
+    Task::create([
+        'project_id' => $request->project_id,
+        'parent_id' => $request->parent_id,
+        'assigned_to' => $request->assigned_to,
+        'title' => $request->title,
+        'description' => $request->description,
+        'start_at' => $request->start_at,
+        'due_at' => $request->due_at,
+        'status' => $request->status,
+        'priority' => $request->priority,
+    ]);
+
+    return redirect()->route('tasks.all')->with('success', 'Task created successfully.');
+}
 
     public function create(Project $project)
     {
@@ -50,7 +87,7 @@ class TaskController extends Controller
             'priority' => $request->priority,
         ]);
 
-        return redirect()->route('task.index', $project->id)->with('success', 'Task created successfully.');
+        return redirect()->route('projects.task.index', $project->id)->with('success', 'Task created successfully.');
     }
 
     public function edit(Task $task)
