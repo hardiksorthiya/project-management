@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\TaskController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\Export\BulkController;
 use App\Http\Controllers\Admin\Export\ClientReportExportController;
 
 Route::get('/', function () {
@@ -28,8 +29,10 @@ Route::resource('clients', ClientController::class);
 Route::resource('projects', ProjectController::class);
 Route::resource('projects.task', TaskController::class)->shallow(); // Shallow routing for tasks under projects
 Route::get('tasks', [TaskController::class, 'all'])->name('tasks.all'); // Get all tasks
+
 Route::get('tasks/create', [TaskController::class, 'createUnified'])->name('tasks.createUnified');
 Route::post('tasks/store', [TaskController::class, 'storeUnified'])->name('tasks.storeUnified');
+
 
 
 
@@ -38,3 +41,5 @@ Route::post('tasks/store', [TaskController::class, 'storeUnified'])->name('tasks
 // Export Routes
 Route::get('admin/clients/export/excel', [ClientController::class, 'exportExcel'])->name('clients.export.excel');
 Route::get('admin/clients/export/pdf', [ClientController::class, 'exportPdf'])->name('clients.export.pdf');
+
+Route::post('/tasks/bulk-action', [TaskController::class, 'bulkAction'])->name('tasks.bulkAction');
